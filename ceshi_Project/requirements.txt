@@ -1,2 +1,2 @@
-# requirements.txt
-SQLAlchemy=2.0.34
+streamlit
+pymysql
