@@ -6,7 +6,7 @@ import json
 def save_to_mysql(age, gender, location, selected_features, feature_scores, car_needs):
     try:
         # 使用 Streamlit 的 experimental_connection 函数连接到 MySQL 数据库
-        conn = st.experimental_connection(
+        conn = st.connection(
             "mysql",
             type="sql",
             host="rm-2ze51s440w5h4957mao.mysql.rds.aliyuncs.com",
