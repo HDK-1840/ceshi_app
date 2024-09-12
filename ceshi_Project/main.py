@@ -1,20 +1,21 @@
 import streamlit as st
 import json
+import pymysql
 
 
 # 定义保存数据到 MySQL 的函数
 def save_to_mysql(age, gender, location, selected_features, feature_scores, car_needs):
     try:
         # 使用 Streamlit 的 experimental_connection 函数连接到 MySQL 数据库
-        conn = st.connection(
-            "mysql",
-            type="sql",
+        db = pymysql.connect(
             host="rm-2ze51s440w5h4957mao.mysql.rds.aliyuncs.com",
             port=3306,
             user="HDK1840",
             password="Hdk184018401840",
             database="app_use",
         )
+        
+        conn = db.cursor()
 
         # 插入数据到表中
         query = """
@@ -29,11 +30,18 @@ def save_to_mysql(age, gender, location, selected_features, feature_scores, car_
             json.dumps(feature_scores, ensure_ascii=False),  # 将需求度分值字典转为 JSON 格式
             ', '.join(car_needs)  # 将用车需求转为字符串
         ))
-
+        
+       
+        # 提交到数据库执行
+        db.commit()
+        db.close()
         st.success("问卷结果已成功保存到数据库中！")
 
     except Exception as err:
         st.error(f"数据库错误：{err}")
+        # 如果发生错误则回滚
+        db.rollback()
+        db.close()
 
 
 def main():
