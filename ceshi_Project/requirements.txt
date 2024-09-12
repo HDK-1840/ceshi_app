@@ -1,3 +1,2 @@
 # requirements.txt
-mysqlclient
-SQLAlchemy
+SQLAlchemy=2.0.34
